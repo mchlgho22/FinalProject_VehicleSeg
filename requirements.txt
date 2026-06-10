@@ -1,0 +1,30 @@
+fastapi
+uvicorn
+python-multipart
+jinja2
+ultralytics
+opencv-python
+pillow
+numpy
+websockets
+yt-dlp 
+starlette==0.36.3
+
+# FinalProject/ 
+# │ 
+# ├── app.py 
+# ├── detector.py 
+# ├── models/ 
+# │     └── best_vehicle_seg.pt 
+# ├── templates/ 
+#       ├── index.html 
+#       └── live.html 
+#       └── upload.html 
+
+# Buat Virtual Environment
+# python -m ensurepip --upgrade (instal pip)
+# python -m venv venv
+# venv\Scripts\activate.bat
+# uvicorn app:app --reload
+
+# pip install -r requirements.txt

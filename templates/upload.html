@@ -1,0 +1,97 @@
+<h2 style="margin-bottom:20px;">Upload Image Detection</h2>
+
+<!-- UPLOAD CARD -->
+<div style="background:#1f1f1f; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 0 10px rgba(0,0,0,0.4);">
+
+    <input type="file" id="file" style="margin-bottom:10px;">
+
+    <button onclick="upload()"
+        style="
+            padding:10px 20px;
+            background:#00d4ff;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:bold;
+        ">
+        Detect
+    </button>
+
+</div>
+
+<!-- STATS CARDS -->
+<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin-bottom:25px;">
+
+    <div style="background:#2a2a2a; padding:15px; border-radius:10px; text-align:center;">
+        <div style="font-size:14px;">Car</div>
+        <div id="car" style="font-size:28px; font-weight:bold;">0</div>
+    </div>
+
+    <div style="background:#2a2a2a; padding:15px; border-radius:10px; text-align:center;">
+        <div style="font-size:14px;">Motorcycle</div>
+        <div id="motorcycle" style="font-size:28px; font-weight:bold;">0</div>
+    </div>
+
+    <div style="background:#2a2a2a; padding:15px; border-radius:10px; text-align:center;">
+        <div style="font-size:14px;">Bus</div>
+        <div id="bus" style="font-size:28px; font-weight:bold;">0</div>
+    </div>
+
+    <div style="background:#2a2a2a; padding:15px; border-radius:10px; text-align:center;">
+        <div style="font-size:14px;">Truck</div>
+        <div id="truck" style="font-size:28px; font-weight:bold;">0</div>
+    </div>
+
+</div>
+
+<!-- RESULT IMAGE -->
+
+
+<div style="
+    display:flex;
+    justify-content:center;
+    margin-top:20px;
+">
+
+    <div style="
+        background:#1f1f1f;
+        padding:15px;
+        border-radius:12px;
+        box-shadow:0 0 10px rgba(0,0,0,0.4);
+    ">
+        <img id="result"
+            style="width:100%; max-width:1000px; border-radius:10px; display:none;">
+    </div>
+
+</div>
+
+<script>
+async function upload(){
+
+    const file = document.getElementById("file").files[0];
+
+    if(!file){
+        alert("Pilih file dulu!");
+        return;
+    }
+
+    let form = new FormData();
+    form.append("file", file);
+
+    let res = await fetch("/upload", {
+        method:"POST",
+        body:form
+    });
+
+    let data = await res.json();
+
+    document.getElementById("car").innerText = data.counts.car;
+    document.getElementById("motorcycle").innerText = data.counts.motorcycle;
+    document.getElementById("bus").innerText = data.counts.bus;
+    document.getElementById("truck").innerText = data.counts.truck;
+
+    let img = document.getElementById("result");
+    img.src = "data:image/jpeg;base64," + data.image;
+    img.style.display = "block";
+}
+</script>

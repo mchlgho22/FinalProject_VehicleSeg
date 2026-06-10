@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Vehicle CCTV Dashboard</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:Arial;
+}
+
+.container{
+    display:flex;
+    height:100vh;
+}
+
+.left{
+    width:320px;
+    background:#1b1b1b;
+    padding:20px;
+}
+
+.right{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:black;
+}
+
+.card{
+    background:#2a2a2a;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.title{
+    font-size:16px;
+}
+
+.value{
+    font-size:42px;
+    font-weight:bold;
+}
+
+img{
+    width:95%;
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <h2>Vehicle Counter</h2>
+
+        <div class="card">
+            <div class="title">Car</div>
+            <div class="value" id="car">0</div>
+        </div>
+
+        <div class="card">
+            <div class="title">Motorcycle</div>
+            <div class="value" id="motorcycle">0</div>
+        </div>
+
+        <div class="card">
+            <div class="title">Bus</div>
+            <div class="value" id="bus">0</div>
+        </div>
+
+        <div class="card">
+            <div class="title">Truck</div>
+            <div class="value" id="truck">0</div>
+        </div>
+
+    </div>
+
+    <div class="right">
+
+        <img src="/video">
+
+    </div>
+
+</div>
+
+<script>
+
+async function loadStats(){
+
+    try{
+
+        const response =
+            await fetch("/stats");
+
+        const data =
+            await response.json();
+
+        document.getElementById("car").innerText =
+            data.car;
+
+        document.getElementById("motorcycle").innerText =
+            data.motorcycle;
+
+        document.getElementById("bus").innerText =
+            data.bus;
+
+        document.getElementById("truck").innerText =
+            data.truck;
+
+    }catch(err){
+
+        console.log(err);
+    }
+}
+
+setInterval(
+    loadStats,
+    1000
+);
+
+loadStats();
+
+</script>
+
+</body>
+</html>
